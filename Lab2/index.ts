@@ -1,11 +1,12 @@
-import express from 'express'
+import express from "express"; 
 import fs from 'fs' 
-import {Request, Response} from 'express'
-import Store from './models/Store'
-import Note from './models/note'
-import Tag from './models/Tag' 
-import User from './models/User' 
+import {Request, Response} from "express"; 
+import Store from "./models/Store";
+import Note from "./models/note";
+import Tag from "./models/Tag"; 
+import User from "./models/User";
 import jwt from "jsonwebtoken"; 
+import Repository from "./Repository";
 
 import { getEnabledCategories } from 'trace_events'
 
@@ -15,12 +16,20 @@ const repo: Repository = new Repository();
 let registerUser = new User(); 
 const secret = "abc123"
 
-let store: Store;
+/* let store: Store;
 repo.readStore().then((a) => {
   if (a) {
     store = JSON.parse(a);
   } else {
     store = new Store()
+  }
+});  
+*/ 
+
+let store: Store = new Store()
+store.readStore().then((a) => {
+  if (a) {
+    store = JSON.parse(a); 
   }
 }); 
 
@@ -28,6 +37,20 @@ repo.readStore().then((a) => {
 //const tags: Tag[] = [] 
 
 app.use(express.json()); 
+
+function IfUserIsAuthorized (authData: string, secret: string): boolean {
+  const token = authData?.split(' ')[1] ?? ''
+  const payload = jwt.verify(token, secret)
+  let checkValue = ''
+  if(registerUser.id) {
+    checkValue = registerUser.id.toString() ?? ''
+  }
+  if(registerUser.id && payload === checkValue) {
+    return true
+  } else {
+    return false
+  }
+} 
 
 app.get("/note/list", function (req: Request, res: Response) {
   const authData = req.headers.authorization ?? ''
@@ -265,18 +288,6 @@ app.post("login", function (req: Request, res: Response) {
     repo.updateStore(JSON.stringify(store)); 
   }
 
-  function IfUserIsAuthorized(authData: string, secret: string): boolean {
-    const token = authData?.split(' ')[1] ?? ''
-    const payload = jwt.verify(token, secret)
-    let checkValue = ''
-    if(registerUser.id) {
-      checkValue = registerUser.id.toString() ?? ''
-    }
-    if(registerUser.id && payload === checkValue) {
-      return true
-    } else {
-      return false
-    }
-  } 
+  
 
-app.listen(8080); 
+app.listen(3000)
