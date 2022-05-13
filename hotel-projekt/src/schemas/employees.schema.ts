@@ -7,6 +7,7 @@ interface IEmployee {
     surname: string; 
     position: string; 
     hotelID: string; 
+    passwordHash: string; 
 }
 
 // Schema represents the structure of the object in database. Is almost the same as the interface.
@@ -15,6 +16,7 @@ const employeeSchema = new Schema<IEmployee>({
     surname: String, 
     position: String, 
     hotelID: String, 
+    passwordHash: String, 
 });
 
 // Model is responsible for communicating with DB.
