@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { HotelModel } from "../schemas/hotel.schema";
+import { RoomModel } from "../schemas/room.schema";
 
 // Create router object.
 export const roomRouter = Router();
@@ -8,7 +8,7 @@ export const roomRouter = Router();
 
 // Get all.
 roomRouter.get('/', async (req, res) => {
-    const hotels = await HotelModel.find({}); 
+    const hotels = await RoomModel.find({}); 
 
     res.json(hotels);
 });
@@ -16,15 +16,15 @@ roomRouter.get('/', async (req, res) => {
 // Get by id.
 roomRouter.get('/:id', async (req, res) => {
     const id = req.params.id; 
-    const hotels = await HotelModel.findOne({ _id: id });
+    const hotels = await RoomModel.findOne({ _id: id });
 
     res.json(hotels); 
 });
 
 roomRouter.post('/', async (req, res) => {
     const payload = req.body;
-
-    const hotel = new HotelModel(payload);
+    // ??
+    const hotel = new RoomModel(payload);
 
     const result = await hotel.save();
 
@@ -36,7 +36,7 @@ roomRouter.put('/:id', async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
 
-    await HotelModel.updateOne({ _id: id }, payload);
+    await RoomModel.updateOne({ _id: id }, payload);
 
     res.status(200).send();
 });
@@ -44,7 +44,7 @@ roomRouter.put('/:id', async (req, res) => {
 roomRouter.delete('/:id', async (req, res) => {
     const id = req.params.id;
 
-    await HotelModel.deleteOne({ _id: id });
+    await RoomModel.deleteOne({ _id: id });
 
     res.status(200).send();
 });

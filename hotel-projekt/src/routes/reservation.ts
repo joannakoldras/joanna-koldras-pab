@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { ReservationModel } from "../schemas/reservation.schema";
 
 // Create router object.
 export const reservationRouter = Router();
@@ -7,23 +8,43 @@ export const reservationRouter = Router();
 
 // Get all.
 reservationRouter.get('/', async (req, res) => {
+    const reservations = await ReservationModel.find({}); 
 
+    res.json(reservations);
 });
 
 // Get by id.
 reservationRouter.get('/:id', async (req, res) => {
+    const id = req.params.id; 
+    const reservations = await ReservationModel.findOne({ _id: id });
 
+    res.json(reservations); 
 });
 
 reservationRouter.post('/', async (req, res) => {
+    const payload = req.body;
 
+    const hotel = new ReservationModel(payload);
+
+    const result = await hotel.save();
+
+    res.json(result);
 });
 
 // Using PUT to replace whole document.
 reservationRouter.put('/:id', async (req, res) => {
+    const id = req.params.id;
+    const payload = req.body;
 
+    await ReservationModel.updateOne({ _id: id }, payload);
+
+    res.status(200).send();
 });
 
 reservationRouter.delete('/:id', async (req, res) => {
+    const id = req.params.id;
 
+    await ReservationModel.deleteOne({ _id: id });
+
+    res.status(200).send();
 });

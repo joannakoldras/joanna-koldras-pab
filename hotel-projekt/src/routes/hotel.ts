@@ -16,20 +16,24 @@ hotelRouter.get('/', async (req, res) => {
 });
 
 // Get by id.
+//:id wrzucone w params 
 hotelRouter.get('/:id', async (req, res) => {
+    //wyciągnięcie z endpointu
     const id = req.params.id;
-    const hotels = await HotelModel.findOne({ _id: id });
+    //select * from hotels where _id = $1 
+    const hotels = await HotelModel.findOne({ _id: id });  
 
     res.json(hotels); 
 });
 
 hotelRouter.post('/', async (req, res) => {
+    //body przypisujemy do payload
     const payload = req.body;
 
     // Creating new HotelModel object
     // because we are operating in context of 'single' document from a collection.
     const hotel = new HotelModel(payload);
-
+    //insert into hotels values .. 
     const result = await hotel.save();
 
     res.json(result);
@@ -39,9 +43,9 @@ hotelRouter.post('/', async (req, res) => {
 hotelRouter.put('/:id', async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
-
+    //update hotels set ... where _id = $1 
     await HotelModel.updateOne({ _id: id }, payload);
-
+    //wysyłamy pustą odpowiedź
     res.status(200).send();
 });
 
@@ -49,7 +53,7 @@ hotelRouter.put('/:id', async (req, res) => {
 hotelRouter.put('/:id/status', async (req, res) => {
     const id = req.params.id;
     const is_quarantined = req.body.status;
-
+    //update hotels set is_quarantined = $2 where _id = $1
     const result = await HotelModel.findOneAndUpdate({ _id: id }, {
         $set: {
             is_quarantined: is_quarantined
@@ -65,7 +69,7 @@ hotelRouter.put('/:id/status', async (req, res) => {
 hotelRouter.patch('/:id', async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
-
+    //update hotels set ... = $2 where _id = $1
     const result = await HotelModel.findByIdAndUpdate(
         id,
         { $set: payload }, { new: true });
@@ -75,7 +79,7 @@ hotelRouter.patch('/:id', async (req, res) => {
 
 hotelRouter.delete('/:id', async (req, res) => {
     const id = req.params.id;
-
+    //delete from hotels where _id = $1 
     await HotelModel.deleteOne({ _id: id });
 
     res.status(200).send();
