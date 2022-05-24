@@ -1,7 +1,10 @@
 import express from "express";
+require('express-async-errors');
 import { APP_PORT, MONGO_HOST } from "./src/config/app.config";
 import { mainRouter } from "./src/routes/main";
 import mongoose = require('mongoose');
+
+
 
 // Bootstrap express application.
 const app = express();

@@ -8,25 +8,61 @@ export const roomRouter = Router();
 
 // Get all.
 roomRouter.get('/', async (req, res) => {
-    const hotels = await RoomModel.find({}); 
+    const skip = parseInt(req.query.skip as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 0;
+    const sortBy = req.query.sortBy as string;
+    const sortOrderParam = req.query.sortOrder as string;
+    const sortOrder = sortOrderParam === 'desc' ? -1 : 1;
 
-    res.json(hotels);
+    let query = RoomModel.find({});
+
+    if (sortBy) {
+        query = query.sort({ [sortBy]: sortOrder })
+    }
+
+    const rooms = await query.skip(skip).limit(limit);
+
+    res.json(rooms);
 });
+
+// function getRandomInt(min, max) {
+//     min = Math.ceil(min);
+//     max = Math.floor(max);
+//     return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
+
+// roomRouter.get('/populate', async (req, res) => {
+//     const rooms = Array(100).fill(null).map((x, index) => {
+//         return new RoomModel({
+//             roomID: '627e874dd52d884a2d9bc1fd',
+//             name: roomNames[getRandomInt(0, roomNames.length)] + ' room',
+//             roomNumber: index + 1,
+//             quantityGuests: getRandomInt(1, 5),
+//             isFree: true
+//         })
+//     })
+
+//     RoomModel.insertMany(rooms);
+
+//     // const rooms = await roomModel.find({});
+
+//     res.sendStatus(200);
+// });
 
 // Get by id.
 roomRouter.get('/:id', async (req, res) => {
-    const id = req.params.id; 
-    const hotels = await RoomModel.findOne({ _id: id });
+    const id = req.params.id;
+    const rooms = await RoomModel.findOne({ _id: id });
 
-    res.json(hotels); 
+    res.json(rooms);
 });
 
 roomRouter.post('/', async (req, res) => {
     const payload = req.body;
-    // ??
-    const hotel = new RoomModel(payload);
 
-    const result = await hotel.save();
+    const room = new RoomModel(payload);
+
+    const result = await room.save();
 
     res.json(result);
 });

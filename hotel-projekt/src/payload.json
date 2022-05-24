@@ -1,0 +1,28 @@
+//HOTELS: 
+{
+    "_id": "627e874dd52d884a2d9bc1fd",
+    "name": "hotel",
+    "address": "Włoska 2",
+    "phone": "233 233 233",
+    "nip": "2213123",
+    "email": "bardziejsmacznie@duo.com",
+    "www": "duo.com",
+    "__v": 0
+}
+
+//ROOMS: 
+{
+    "hotelID": "627e874dd52d884a2d9bc1fd",
+    "name": "1", 
+    "quantityGuests": 5,
+    "isFree": true
+}
+
+//EMPLOYEES: 
+{
+    "name": "bartek",
+    "surname": "kowalski",
+    "position": "receptionist",
+    "hotelID": "627e874dd52d884a2d9bc1fd",
+    "password": "alamakota"
+}

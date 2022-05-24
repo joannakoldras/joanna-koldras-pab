@@ -16,17 +16,17 @@ reservationRouter.get('/', async (req, res) => {
 // Get by id.
 reservationRouter.get('/:id', async (req, res) => {
     const id = req.params.id; 
-    const reservations = await ReservationModel.findOne({ _id: id });
+    const reservation = await ReservationModel.findOne({ _id: id });
 
-    res.json(reservations); 
+    res.json(reservation); 
 });
 
 reservationRouter.post('/', async (req, res) => {
     const payload = req.body;
 
-    const hotel = new ReservationModel(payload);
+    const reservation = new ReservationModel(payload);
 
-    const result = await hotel.save();
+    const result = await reservation.save();
 
     res.json(result);
 });

@@ -6,7 +6,7 @@ interface IRoom {
     hotelID: string; 
     name: string;
     quantityGuests: number; 
-    status: boolean;    
+    isFree: boolean;    
 }
 
 // Schema represents the structure of the object in database. Is almost the same as the interface.
@@ -14,7 +14,7 @@ const roomSchema = new Schema<IRoom>({
     hotelID: String, 
     name: String, 
     quantityGuests: Number,  
-    status: Boolean, 
+    isFree: Boolean, 
 });
 
 // Model is responsible for communicating with DB.
