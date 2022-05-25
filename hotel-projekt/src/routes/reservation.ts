@@ -4,7 +4,7 @@ import { ReservationModel } from "../schemas/reservation.schema";
 // Create router object.
 export const reservationRouter = Router();
 
-// Implement all endpoints for restarant objects.
+// Implement all endpoints for hotel objects.
 
 // Get all.
 reservationRouter.get('/', async (req, res) => {

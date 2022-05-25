@@ -4,7 +4,7 @@ import { RoomModel } from "../schemas/room.schema";
 // Create router object.
 export const roomRouter = Router();
 
-// Implement all endpoints for restarant objects.
+// Implement all endpoints for hotel objects.
 
 // Get all.
 roomRouter.get('/', async (req, res) => {
@@ -25,6 +25,7 @@ roomRouter.get('/', async (req, res) => {
     res.json(rooms);
 });
 
+//Losowe wartości pokoi 
 // function getRandomInt(min, max) {
 //     min = Math.ceil(min);
 //     max = Math.floor(max);
